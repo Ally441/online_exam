@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.StudentDao">
+    <select id="queryStudent" resultType="Student">
+        select *
+        from tb_student
+        where student_number=#{studentNumber} and student_password=#{studentPassword}
+    </select>
+    <insert id="registerStudent" parameterType="Student">
+        insert into tb_student(student_number,student_name,student_password,
+        student_class,student_classname,student_phone,student_email,student_sex)
+        values (#{studentNumber},#{studentName},#{studentPassword},#{studentClass},
+        #{studentClassName},#{studentPhone},#{studentEmail},#{studentSex})
+    </insert>
+    <update id="updateStudent" parameterType="Student">
+        update tb_student
+        <set>
+            <if test="studentNumber!=null">
+                student_number=#{studentNumber},
+            </if>
+            <if test="studentName!=null">
+                student_name=#{studentName},
+            </if>
+            <if test="studentPassword!=null">
+                student_password=#{studentPassword},
+            </if>
+            <if test="studentClass!=null">
+                student_class=#{studentClass},
+            </if>
+            <if test="studentClassName!=null">
+                student_classname=#{studentClassName},
+            </if>
+            <if test="studentPhone!=null">
+                student_phone=#{studentPhone},
+            </if>
+            <if test="studentEmail!=null">
+                student_email=#{studentEmail},
+            </if>
+            <if test="studentSex!=null">
+                student_sex=#{studentSex},
+            </if>
+        </set>
+        where student_id=#{studentId}
+    </update>
+    <update id="updateStudentPassword" parameterType="Student">
+        update tb_student
+        set
+        <if test="studentPassword!=null">
+            student_password=#{studentPassword},
+        </if>
+        <if test="studentPhone!=null">
+            student_phone=#{studentPhone},
+        </if>
+        <if test="studentEmail!=null">
+            student_email=#{studentEmail}
+        </if>
+        where student_number=#{studentNumber}
+    </update>
+    <select id="queryStudentByClass" resultType="Student">
+        select *
+        from tb_student
+        where student_class=#{studentClass}
+    </select>
+    <select id="queryStudentByClassName" resultType="Student">
+        select *
+        from tb_student
+        where student_classname=#{studentClass}
+    </select>
+    <insert id="InputExcel">
+        INSERT INTO tb_student
+        (student_number,student_name,student_password,student_class,student_classname,
+        student_phone,student_email,student_sex)
+        values (#{studentNumber},#{studentName},#{studentPassword},
+        #{studentClass},#{studentClassName},#{studentPhone},#{studentEmail},#{studentSex})
+    </insert>
+
+    <select id="getAll" resultType="Student">
+        select *
+        from tb_student
+    </select>
+    <select id="selectCount" resultType="int">
+        select count(*) from tb_student
+    </select>
+    <select id="findByPage" parameterType="Map" resultType="Student">
+        select student_id,student_number,student_name,student_password,
+        student_class,student_classname,student_phone,student_email,student_sex
+        from tb_student
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+    <select id="selectByStudentId" resultType="Student">
+        select *
+        from tb_student
+        where student_id=#{studentId}
+    </select>
+    <delete id="deleteByStudentId" parameterType="Integer">
+        delete
+        from tb_student
+        where student_id=#{studentId}
+    </delete>
+</mapper>

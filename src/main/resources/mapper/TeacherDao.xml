@@ -1,0 +1,69 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.TeacherDao">
+    <select id="queryTeacher" resultType="Teacher">
+        select *
+        from tb_teacher
+        where teacher_number=#{teacherNumber}
+    </select>
+    <insert id="registerTeacher" parameterType="Teacher">
+        insert into tb_teacher(teacher_number,teacher_name,teacher_password,teacher_email,
+        teacher_phone,teacher_sex)
+        values (#{teacherNumber},#{teacherName},#{teacherPassword},#{teacherEmail},#{teacherPhone},#{teacherSex})
+    </insert>
+    <update id="updateTeacher" parameterType="Teacher">
+        update tb_teacher
+        <set>
+            <if test="teacherNumber!=null">
+                teacher_number=#{teacherNumber},
+            </if>
+            <if test="teacherName!=null">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="teacherPassword!=null">
+                teacher_password=#{teacherPassword},
+            </if>
+            <if test="teacherPhone!=null">
+                teacher_phone=#{teacherPhone},
+            </if>
+            <if test="teacherEmail!=null">
+                teacher_email=#{teacherEmail},
+            </if>
+            <if test="teacherSex!=null">
+                teacher_sex=#{teacherSex},
+            </if>
+        </set>
+        where teacher_id=#{teacherId}
+    </update>
+    <update id="updateTeacherPassword" parameterType="Teacher">
+        update tb_teacher
+        set teacher_password=#{teacherPassword}
+        where teacher_number=#{teacherNumber}
+    </update>
+    <select id="queryTeacherById" resultType="Teacher">
+        select *
+        from tb_teacher
+        where teacher_id=#{teacherId}
+    </select>
+    <delete id="deleteByTeacherId" parameterType="Integer">
+        delete from tb_teacher
+        where teacher_id=#{teacherId}
+    </delete>
+    <select id="selectAll" resultType="Teacher">
+        select *
+        from tb_teacher
+    </select>
+    <select id="findByPage" parameterType="Map" resultType="Teacher">
+        select teacher_id,teacher_number,teacher_name,teacher_password,
+        teacher_email,teacher_phone,teacher_sex
+        from tb_teacher
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from tb_teacher
+    </select>
+</mapper>

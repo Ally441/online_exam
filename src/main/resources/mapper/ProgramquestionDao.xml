@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.ProgramquestionDao">
+    <insert id="insertProgramquestion" parameterType="Programquestion">
+        insert into tb_programquestion (question_name,question_context,
+        answear,score,question_chapter,level)
+        values (#{questionName},#{questionContext},#{answear},
+        #{score},#{questionChapter},#{level});
+    </insert>
+    <update id="updateProgramquestion" parameterType="Programquestion">
+        update tb_programquestion
+        set
+        <if test="questionName!=null">
+            question_name=#{questionName} ,
+        </if>
+        <if test="questionContext!=null">
+            question_context=#{questionContext} ,
+        </if>
+        <if test="answear!=null">
+            answear=#{answear} ,
+        </if>
+        <if test="score!=null">
+            score=#{score},
+        </if>
+        <if test="questionChapter!=null">
+            question_chapter=#{questionChapter},
+        </if>
+        <if test="level!=null">
+            level=#{level}
+        </if>
+        where question_id=#{questionId}
+    </update>
+
+    <delete id="deleteProgramquestion" parameterType="Integer">
+        delete  from tb_programquestion
+        where question_id=#{questionId};
+    </delete>
+    <select id="selectProgramquestion" resultType="Programquestion">
+        select *
+        from tb_programquestion
+        where question_chapter=#{questionChapter}
+    </select>
+
+    <select id="selectById" resultType="Programquestion">
+        select *
+        from tb_programquestion
+        where question_id=#{questionId};
+    </select>
+    <insert id="InputExcel">
+        INSERT INTO tb_programquestion
+        (question_name,question_context,answear,score,question_chapter,level)
+        values (#{questionName},#{questionContext},#{answear},#{score},#{questionChapter},#{level})
+    </insert>
+
+    <select id="getAll" resultType="Programquestion">
+        select *
+        from tb_programquestion
+    </select>
+</mapper>

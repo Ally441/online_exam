@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.MultiquestionDao">
+    <insert id="insertMultiquestion" parameterType="Multiquestion">
+        insert into tb_multiquestion(question_name,question_context,
+        question_a,question_b,question_c,question_d,answear,score,level,
+        question_chapter) values (#{questionName},#{questionContext},
+        #{questionA},#{questionB},#{questionC},#{questionD},#{answear},
+        #{score},#{level},#{questionChapter})
+    </insert>
+    <update id="updateMultiquestion" parameterType="Multiquestion">
+        update tb_multiquestion
+        <set>
+            <if test="questionName!=null">
+                question_name=#{questionName} ,
+            </if>
+            <if test="questionContext!=null">
+                question_context=#{questionContext},
+            </if>
+            <if test="questionA!=null">
+                question_a = #{questionA},
+            </if>
+            <if test="questionB!=null">
+                question_a = #{questionA},
+            </if>
+            <if test="questionC!=null">
+                question_a = #{questionA},
+            </if>
+            <if test="questionD!=null">
+                question_a = #{questionA},
+            </if>
+            <if test="answear!=null">
+                answear=#{answear} ,
+            </if>
+            <if test="score!=null">
+                score=#{score},
+            </if>
+            <if test="level!=null">
+                level=#{level},
+            </if>
+            <if test="questionChapter!=null">
+                question_chapter=#{questionChapter},
+            </if>
+        </set>
+        where question_id=#{questionId}
+    </update>
+    <delete id="deleteMultiquestion" parameterType="Integer">
+        delete from tb_multiquestion
+        where question_id=#{questionId}
+    </delete>
+    <select id="selectMultiquestion" resultType="Multiquestion">
+        select *
+        from tb_multiquestion
+        where question_chapter=#{questionChapter}
+    </select>
+    <select id="selectById" resultType="Multiquestion">
+        select *
+        from tb_multiquestion
+        where question_id=#{questionId}
+    </select>
+    <insert id="InputExcel">
+        INSERT INTO tb_multiquestion
+        (question_name,question_context,question_a,question_b,question_c,question_d,answear,score,level,question_chapter)
+        values (#{questionName},#{questionContext},#{questionA},#{questionB},#{questionC},#{questionD},#{answear},#{score},#{level},#{questionChapter})
+    </insert>
+
+    <select id="getAll" resultType="Multiquestion">
+        select *
+        from tb_multiquestion
+    </select>
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from tb_multiquestion
+    </select>
+    <select id="findByPage" parameterType="Map" resultType="Multiquestion">
+        select question_id,question_name,question_context,question_a,question_b,question_c,question_d,
+        answear,score,level,question_chapter
+        from tb_multiquestion
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+</mapper>

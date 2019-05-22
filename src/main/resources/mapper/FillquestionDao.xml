@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.FillquestionDao">
+    <insert id="insertFillquestion" parameterType="Fillquestion">
+        insert into tb_fillquestion (question_name,question_context,
+        answear,score,question_chapter,level)
+        values (#{questionName},#{questionContext},#{answear},
+        #{score},#{questionChapter},#{level});
+    </insert>
+    <update id="updateFillquestion" parameterType="Fillquestion">
+        update tb_fillquestion
+        set
+        <if test="questionName!=null">
+            question_name=#{questionName} ,
+        </if>
+        <if test="questionContext!=null">
+            question_context=#{questionContext} ,
+        </if>
+        <if test="answear!=null">
+            answear=#{answear} ,
+        </if>
+        <if test="score!=null">
+            score=#{score},
+        </if>
+        <if test="questionChapter!=null">
+            question_chapter=#{questionChapter},
+        </if>
+        <if test="level!=null">
+            level=#{level}
+        </if>
+        where question_id=#{questionId}
+    </update>
+
+    <delete id="deleteFillquestion" parameterType="Integer">
+        delete  from tb_fillquestion
+        where question_id=#{questionId};
+    </delete>
+
+    <select id="selectById" resultType="Fillquestion">
+        select *
+        from tb_fillquestion
+        where question_id=#{questionId}
+    </select>
+
+    <select id="selectFillquestion" resultType="Fillquestion">
+        select *
+        from tb_fillquestion
+        where question_chapter=#{questionChapter}
+    </select>
+
+    <insert id="InputExcel">
+        INSERT INTO tb_fillquestion
+        (question_name,question_context,answear,score,question_chapter,level)
+        values (#{questionName},#{questionContext},#{answear},#{score},#{questionChapter},#{level})
+    </insert>
+
+    <select id="getAll" resultType="Fillquestion">
+        select *
+        from tb_fillquestion
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from tb_fillquestion
+    </select>
+    <select id="findByPage" parameterType="Map" resultType="Fillquestion">
+        select question_id,question_name,question_context,
+        answear,score,question_chapter,level
+        from tb_fillquestion
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+</mapper>

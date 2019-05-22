@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.CourseDao" >
+    <resultMap id="Course" type="com.nuc.exam.entity.Course">
+        <id column="course_id" property="courseId" javaType="Integer"/>
+        <result column="course_name" property="courseName" javaType="String"/>
+        <result column="course_starttime" property="courseStartTime"  javaType="Date"/>
+        <result column="course_endtime" property="courseEndTime" javaType="Date"/>
+        <result column="course_classname" property="courseClassName" javaType="String"/>
+        <result column="course_teacher_id" property="courseTeacherId" javaType="Integer"/>
+        <association property="teacher" column="course_teacher_id" javaType="Teacher">
+<!--            <id column="teacher_id" property="teacherId" javaType="Integer"/>-->
+            <result column="teacher_name" property="teacherName" javaType="String"/>
+<!--            <result column="teacher_number" property="teacherNumber" javaType="String"/>-->
+<!--            <result column="teacher_password" property="teacherPassword" javaType="String"/>-->
+<!--            <result column="teacher_email" property="teacherEmail" javaType="String"/>-->
+<!--            <result column="teacher_phone" property="teacherPhone" javaType="String"/>-->
+<!--            <result column="teacher_sex" property="teacherSex" javaType="Integer"/>-->
+        </association>
+    </resultMap>
+    <select id="queryCourseByClassName" resultType="Course">
+        select
+            tb_course.course_id,
+            tb_course.course_name,
+            tb_course.course_starttime,
+            tb_course.course_endtime,
+            tb_course.course_classname,
+            tb_course.course_teacher_id,
+            tb.teacher_name as 'teacher.teacherName'
+        from tb_course
+        left join tb_teacher tb on tb_course.course_teacher_id = tb.teacher_id
+        where course_classname=#{className}
+    </select>
+    <select id="queryCourse" resultType="Course">
+        select *
+        from tb_course
+        where course_name = #{courseName}
+    </select>
+    <select id="queryCourseByTeacherId" resultType="Course">
+        select *
+        from tb_course
+        where course_teacher_id=#{teacherId}
+    </select>
+
+    <insert id="insertCourse" parameterType="Course">
+        insert into tb_course(course_name,course_starttime,
+         course_endtime,course_classname,course_teacher_id)
+        values (#{courseName},#{courseStartTime},#{courseEndTime}
+        ,#{courseClassName},#{teacherId})
+    </insert>
+    <delete id="deleteCourse" parameterType="Integer">
+        delete from tb_course
+        where course_id=#{courseId}
+    </delete>
+</mapper>

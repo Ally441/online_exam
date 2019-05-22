@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.AnswearDao">
+    <insert id="insertAnswear" parameterType="Answear">
+        insert into tb_answear (exam_id,student_number,answear,score,question_id)
+        values (#{examId},#{studentNumber},#{answear},#{score},#{questionId});
+    </insert>
+    <update id="updateAnswear" parameterType="Answear">
+        update tb_answear
+        set answear=#{answear}
+        where exam_id=#{examId} and student_number=#{studentNumber}
+        and question_id=#{questionId}
+    </update>
+    <update id="updateScore" parameterType="Answear">
+        update tb_answear
+        set score = #{score}
+        where exam_id=#{examId} and student_number=#{studentNumber}
+        and question_id=#{questionId}
+    </update>
+    <select id="selectAnswear" resultType="Answear">
+        select *
+        from tb_answear
+        where exam_id=#{examId} and student_number=#{studentNumber}
+    </select>
+    <select id="selectScore" resultType="Integer">
+        select sum(score)
+        from tb_answear
+        where exam_id=#{examId} and student_number=#{studentNumber}
+    </select>
+</mapper>

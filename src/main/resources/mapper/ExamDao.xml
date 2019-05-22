@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nuc.exam.dao.ExamDao" >
+    <insert id="insertExam" parameterType="Exam">
+        insert into tb_exam(exam_name,exam_creater,exam_classname,
+        exam_time,exam_status,exam_context)
+        values (#{examName},#{examCreater},#{examClassName},#{examTime},
+        #{examStatus},#{examContext})
+    </insert>
+    <delete id="deleteExam" parameterType="Integer">
+        delete from tb_exam
+        where exam_id=#{examId}
+    </delete>
+    <update id="update" parameterType="Exam">
+        update tb_exam
+        set
+        <if test="examName!=null">
+            exam_name=#{examName},
+        </if>
+        <if test="examCreater!=null">
+            exam_creater=#{examCreater},
+        </if>
+        <if test="examClassName!=null">
+            exam_classname=#{examClassName},
+        </if>
+        <if test="examTime!=null">
+            exam_time=#{examTime},
+        </if>
+        <if test="examStatus!=null">
+            exam_status=#{examStatus},
+        </if>
+        <if test="examContext!=null">
+            exam_context=#{examContext}
+        </if>
+        where exam_id=#{examId}
+    </update>
+    <select id="selectExam" resultType="Exam">
+        select *
+        from tb_exam
+        where exam_id = #{examId}
+    </select>
+    <select id="selectAll" resultType="Exam">
+        select * from tb_exam
+    </select>
+    <select id="selectByClassName" resultType="Exam">
+        select *
+        from tb_exam
+        where exam_classname=#{examClassName}
+    </select>
+    <select id="selectByCreater" resultType="Exam">
+        select *
+        from tb_exam
+        where exam_creater=#{examCreater}
+    </select>
+    
+</mapper>
